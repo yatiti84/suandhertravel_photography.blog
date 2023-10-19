@@ -1,9 +1,17 @@
 <template>
+  <div id="app">
+    <header>
+      <h1>雨女攝影旅遊suanddhertravel Blog</h1>
+      
+      <router-link to="/">Home</router-link>
+
+      <router-link to="/about">About</router-link>
+      <router-link to="/AllPosts">allposts</router-link>
+    </header>
+  </div>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-view />
   </nav>
-  <router-view/>
 </template>
 
 <style>
@@ -27,4 +35,30 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+/* ### */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 1.5rem;
+}
+
+* + * {
+  margin-top: 1.5rem;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+}
 </style>
+
+<script>
+export default {
+  name: 'App',
+}
+</script>
