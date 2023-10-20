@@ -55,7 +55,7 @@ export default {
   methods: {
     displayableDate (date) {
       return new Intl.DateTimeFormat(
-        'en-US',
+        'zh-TW',
         { dateStyle: 'full' },
       ).format(new Date(date))
     }
