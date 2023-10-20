@@ -17,6 +17,12 @@
               <router-link :to="`/tag/${tag.name}`">#{{ tag.name }}</router-link>
             </li>
           </ul>
+
+          <ul>
+            <li class="post__categories" v-for="category in post.categories" :key="category.name">
+              <router-link :to="`/category/${category.name}`">#{{ category.name }}</router-link>
+            </li>
+          </ul>
         </li>
       </ol>
     </div>
@@ -42,8 +48,8 @@ export default {
     },
   },
   computed: {
-    publishedPosts () {
-      return this.posts.filter(post => post.published)
+    publishedPosts (props) {
+      return props.posts.filter(post => post.published)
     }
   },
   methods: {

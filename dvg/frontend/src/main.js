@@ -9,8 +9,8 @@ const cache = new InMemoryCache()
 
 const apolloClient = new ApolloClient({
   cache,
-  uri: '<http://localhost:8000/graphql>',
-  link: 'http://localhost:8000/graphql'
+  uri: 'http://localhost:8000/graphql',
+//   link: 'http://localhost:8000/graphql'
 })
 
 const app = createApp({
@@ -21,6 +21,8 @@ const app = createApp({
 })
 app.use(router)
 app.mount('#app')
+
+
 
 
 
