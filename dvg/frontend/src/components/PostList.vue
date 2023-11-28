@@ -30,6 +30,7 @@
 
 <script>
 import AuthorLink from '@/components/AuthorLink'
+import { ref, watchEffect, computed } from 'vue';
 
 export default {
   name: 'PostList',
@@ -47,9 +48,23 @@ export default {
       default: true,
     },
   },
-  computed: {
-    publishedPosts (props) {
-      return props.posts.filter(post => post.published)
+  setup(props) {
+    // Use a reactive reference to track the posts
+    const postsRef = ref(props.posts || []);
+
+    // Watch for changes in the props.posts and update the local posts
+    watchEffect(() => {
+      if (props.posts) {
+        postsRef.value = props.posts;
+      }
+    });
+
+    const publishedPosts = computed(() => {
+      return postsRef.value.filter(post => post.published);
+    });
+
+    return {
+      publishedPosts
     }
   },
   methods: {

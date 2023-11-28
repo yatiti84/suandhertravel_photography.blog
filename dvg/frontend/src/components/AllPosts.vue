@@ -31,6 +31,7 @@ const postsQuery = gql`query {
     }
     categories {
       name
+      slug
     }
   }
         }`
@@ -38,13 +39,8 @@ export default {
   name: 'AllPosts',
   setup() {
     const { result, loading, error } = useQuery(postsQuery);
-    console.log(result)
-    const posts = result._rawValue.allPosts
-    console.log(posts)
-    // this.posts = posts
-    // this.allPosts = posts.allPosts
     return {
-      posts,
+      posts: result.value ? result.value.allPosts : null,
       loading,
       error
     }

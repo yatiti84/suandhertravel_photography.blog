@@ -2,18 +2,27 @@
   <div id="app">
     <header>
       <h1>雨女攝影旅遊suanddhertravel Blog</h1>
-      
+
       <router-link to="/">Home</router-link>
 
       <router-link to="/about">About</router-link>
       <router-link to="/AllPosts">allposts</router-link>
+
     </header>
+    <!-- <p v-if="error">Something went wrong...
+    {{ error }}</p>
+  <p v-if="loading">Loading...</p>
+  <p v-else>{{ result }}</p> -->
   </div>
   <nav>
     <router-view />
   </nav>
 </template>
-
+<script>
+export default {
+  name: 'App',
+}
+</script >
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -47,7 +56,7 @@ body {
   padding: 1.5rem;
 }
 
-* + * {
+*+* {
   margin-top: 1.5rem;
 }
 
@@ -57,8 +66,8 @@ body {
 }
 </style>
 
-<script>
+<!-- <script>
 export default {
   name: 'App',
 }
-</script>
+</script> -->
