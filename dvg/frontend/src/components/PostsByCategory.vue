@@ -41,7 +41,6 @@ export default {
   setup() {
     const route = useRoute()
     const routeName = route.params.category
-    console.log(routeName)
     const { result, loading, error } = useQuery(postsByCategory, {
       category: routeName,
     }
