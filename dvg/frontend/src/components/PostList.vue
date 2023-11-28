@@ -30,7 +30,7 @@
 
 <script>
 import AuthorLink from '@/components/AuthorLink'
-import { ref, watchEffect, computed } from 'vue';
+import { ref, watch, onBeforeMount } from 'vue';
 
 export default {
   name: 'PostList',
@@ -40,6 +40,7 @@ export default {
   props: {
     posts: {
       type: Array,
+      default: () => [],
       required: true,
     },
     showAuthor: {
@@ -49,19 +50,46 @@ export default {
     },
   },
   setup(props) {
+    const publishedPosts = ref([]);
+    // const publishedPosts = computed(() => {
+    //   return props.posts.filter(post => post.published);
+    // });
+    
+    watch(() => {
+      publishedPosts.value = props.posts.filter(post => post.published);
+    });
+    // Before the component is mounted, filter the published posts
+    onBeforeMount(() => {
+      publishedPosts.value = props.posts.filter(post => post.published);
+    });
+
+
     // Use a reactive reference to track the posts
-    const postsRef = ref(props.posts || []);
-
+    
+    // const publishedPosts = ref(props.posts || []);
+    // // const publishedPosts = ref([]);
+    // watch(() => {
+    //   publishedPosts.value = props.posts;
+    // });
     // Watch for changes in the props.posts and update the local posts
-    watchEffect(() => {
-      if (props.posts) {
-        postsRef.value = props.posts;
-      }
-    });
+    // watchEffect(() => {
+    //   if (props.posts) {
+    //     postsRef.value = props.posts;
+    // //     const publishedPosts = computed(() => {
+    // //   return postsRef.value.filter(post => post.published);
+    // // });
+    // //     return {
+    // //   publishedPosts
+    // // }
+    //   }
+    // });
 
-    const publishedPosts = computed(() => {
-      return postsRef.value.filter(post => post.published);
-    });
+    // const publishedPosts = computed(() => {
+    //   return postsRef.value.filter(post => post.published);
+    // });
+    // computed(() => {
+    //   return publishedPosts.value.filter(post => post.published);
+    // });
 
     return {
       publishedPosts
