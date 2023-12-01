@@ -1,28 +1,20 @@
 <template>
   <div id="app">
     <header>
+      <navbarMenu></navbarMenu>
       <h1>雨女攝影旅遊suanddhertravel Blog</h1>
-
-      <router-link to="/">Home</router-link>
-
-      <router-link to="/about">About</router-link>
-      <router-link to="/AllPosts">allposts</router-link>
-
+      <div class="route">
+        <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/about" class="nav-link">About</router-link>
+        <router-link to="/AllPosts" class="nav-link">allposts</router-link>
+      </div>
     </header>
-    <!-- <p v-if="error">Something went wrong...
-    {{ error }}</p>
-  <p v-if="loading">Loading...</p>
-  <p v-else>{{ result }}</p> -->
+    <nav>
+      <router-view />
+    </nav>
   </div>
-  <nav>
-    <router-view />
-  </nav>
 </template>
-<script>
-export default {
-  name: 'App',
-}
-</script >
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -32,42 +24,16 @@ export default {
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-/* ### */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  margin: 0;
-  padding: 1.5rem;
-}
-
-*+* {
-  margin-top: 1.5rem;
-}
-
-#app {
-  margin: 0;
-  padding: 0;
-}
+.route .nav-link {
+  margin-right: 50px; 
+  }
 </style>
-
-<!-- <script>
+<script>
+import navbarMenu from '@/components/navbarMenu.vue';
 export default {
   name: 'App',
+  components: {
+    navbarMenu,
+  },
 }
-</script> -->
+</script >
