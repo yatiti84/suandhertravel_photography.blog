@@ -32,21 +32,28 @@ class CategoryType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     all_posts = graphene.List(PostType)
+    all_categories = graphene.List(CategoryType)
     author_by_username = graphene.Field(AuthorType, username=graphene.String())
     post_by_slug = graphene.Field(PostType, slug=graphene.String())
     posts_by_author = graphene.List(PostType, username=graphene.String())
     posts_by_tag = graphene.List(PostType, tag=graphene.String())
     posts_by_category = graphene.List(PostType, category=graphene.String())
     all_tags = graphene.List(TagType)
+
     def resolve_all_tags(root, info):
         return models.Tag.objects.all()
-    
+
     def resolve_all_posts(root, info):
         return (
             models.Post.objects.prefetch_related("tags")
             .prefetch_related("categories")
             .select_related("author")
             .all()
+        )
+
+    def resolve_all_categories(root, info):
+        return (
+            models.Category.objects.all()
         )
 
     def resolve_author_by_username(root, info, username):
@@ -77,7 +84,7 @@ class Query(graphene.ObjectType):
             .select_related("author")
             .filter(tags__name__iexact=tag)
         )
-    
+
     def resolve_posts_by_category(root, info, category):
         return (
             models.Post.objects.prefetch_related("tags")
@@ -85,5 +92,6 @@ class Query(graphene.ObjectType):
             .select_related("author")
             .filter(categories__name__iexact=category)
         )
+
 
 schema = graphene.Schema(query=Query)
