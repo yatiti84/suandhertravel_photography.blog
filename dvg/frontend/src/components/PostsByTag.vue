@@ -12,6 +12,7 @@ import PostList from '@/components/PostList'
 import gql from 'graphql-tag'
 import { useQuery } from '@vue/apollo-composable'
 import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
 
 const postsByTagQuery = gql`query ($tag: String!) {
   postsByTag(tag: $tag) {
@@ -46,23 +47,26 @@ export default {
   setup() {
     const route = useRoute()
     const routeName = route.params.tag
+    const posts = ref(null);
     const { result, loading, error } = useQuery(postsByTagQuery, {
       tag: routeName,
     }
     );
+    watch(
+      () => result.value,
+      (newPosts) => {
+        posts.value = newPosts ? newPosts.postsByTag : null;
+      },
+      { immediate: true } // Trigger the watcher immediately
+    );
     return {
-      posts: result.value ? result.value.postsByTag : null,
+      posts,
       loading,
       error
     }
   },
   components: {
     PostList,
-  },
-  data() {
-    return {
-      postsByTag: null,
-    }
-  },
+  }
 }
 </script>

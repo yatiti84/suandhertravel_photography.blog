@@ -1,32 +1,31 @@
 <template>
-    <div>
-      <ol class="post-list">
-        <li class="post" v-for="post in publishedPosts" :key="post.title">
-            <span class="post__title">
-              <router-link
-                :to="`/post/${post.slug}`"
-              >{{ post.title }}: {{ post.subtitle }}</router-link>
-            </span>
-            <span v-if="showAuthor">
-              by <AuthorLink :author="post.author" />
-            </span>
-            <div class="post__date">{{ displayableDate(post.publishDate) }}</div>
-          <p class="post__description">{{ post.metaDescription }}</p>
-          <ul>
-            <li class="post__tags" v-for="tag in post.tags" :key="tag.name">
-              <router-link :to="`/tag/${tag.name}`">#{{ tag.name }}</router-link>
-            </li>
-          </ul>
+  <div>
+    <ol class="post-list">
+      <li class="post" v-for="post in publishedPosts" :key="post.title">
+        <span class="post__title">
+          <router-link :to="`/post/${post.slug}`">{{ post.title }}: {{ post.subtitle }}</router-link>
+        </span>
+        <span v-if="showAuthor">
+          by
+          <AuthorLink :author="post.author" />
+        </span>
+        <div class="post__date">{{ displayableDate(post.publishDate) }}</div>
+        <p class="post__description">{{ post.metaDescription }}</p>
+        <ul>
+          <li class="post__tags" v-for="tag in post.tags" :key="tag.name">
+            <router-link :to="`/tag/${tag.name}`">#{{ tag.name }}</router-link>
+          </li>
+        </ul>
 
-          <ul>
-            <li class="post__categories" v-for="category in post.categories" :key="category.name">
-              <router-link :to="`/category/${category.name}`">#{{ category.name }}</router-link>
-            </li>
-          </ul>
-        </li>
-      </ol>
-    </div>
-  </template>
+        <ul>
+          <li class="post__categories" v-for="category in post.categories" :key="category.name">
+            <router-link :to="`/category/${category.name}`">#{{ category.name }}</router-link>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</template>
 
 <script>
 import AuthorLink from '@/components/AuthorLink'
@@ -51,52 +50,26 @@ export default {
   },
   setup(props) {
     const publishedPosts = ref([]);
-    // const publishedPosts = computed(() => {
-    //   return props.posts.filter(post => post.published);
+    // Watch for changes in the props.posts and update the local publishedPosts
+    // watch(() => {
+    //   publishedPosts.value = props.posts.filter(post => post.published);
     // });
-    
-    watch(() => {
-      publishedPosts.value = props.posts.filter(post => post.published);
-    });
-    // Before the component is mounted, filter the published posts
+    watch(() => props.posts,
+      (newPosts) => {
+        publishedPosts.value = newPosts.filter(post => post.published);
+      },
+      { immediate: true } // Trigger the watcher immediately
+    );
+    // Before the component is mounted, set the initial value of publishedPosts
     onBeforeMount(() => {
       publishedPosts.value = props.posts.filter(post => post.published);
     });
-
-
-    // Use a reactive reference to track the posts
-    
-    // const publishedPosts = ref(props.posts || []);
-    // // const publishedPosts = ref([]);
-    // watch(() => {
-    //   publishedPosts.value = props.posts;
-    // });
-    // Watch for changes in the props.posts and update the local posts
-    // watchEffect(() => {
-    //   if (props.posts) {
-    //     postsRef.value = props.posts;
-    // //     const publishedPosts = computed(() => {
-    // //   return postsRef.value.filter(post => post.published);
-    // // });
-    // //     return {
-    // //   publishedPosts
-    // // }
-    //   }
-    // });
-
-    // const publishedPosts = computed(() => {
-    //   return postsRef.value.filter(post => post.published);
-    // });
-    // computed(() => {
-    //   return publishedPosts.value.filter(post => post.published);
-    // });
-
     return {
       publishedPosts
     }
   },
   methods: {
-    displayableDate (date) {
+    displayableDate(date) {
       return new Intl.DateTimeFormat(
         'zh-TW',
         { dateStyle: 'full' },
@@ -105,6 +78,8 @@ export default {
   },
 }
 </script>
+
+
 
 <style>
 .post-list {

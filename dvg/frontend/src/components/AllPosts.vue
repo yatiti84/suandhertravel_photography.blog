@@ -3,56 +3,67 @@
     <h2>Recent posts</h2>
     <p v-if="error">Something went wrong...</p>
     <p v-if="loading">Loading...</p>
+    <p v-if="posts === null">Loading...</p>
     <PostList v-else :posts="posts" />
   </div>
 </template>
-  
+
 <script>
 import PostList from '@/components/PostList'
 import gql from 'graphql-tag'
+import { ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
-const postsQuery = gql`query {
-        allPosts {
-    title
-    subtitle
-    publishDate
-    published
-    metaDescription
-    slug
-    author {
-      user {
-        username
-        firstName
-        lastName
+
+const postsQuery = gql`
+  query {
+    allPosts {
+      title
+      subtitle
+      publishDate
+      published
+      metaDescription
+      slug
+      author {
+        user {
+          username
+          firstName
+          lastName
+        }
+      }
+      tags {
+        name
+      }
+      categories {
+        name
+        slug
       }
     }
-    tags {
-      name
-    }
-    categories {
-      name
-      slug
-    }
   }
-        }`
+`
+
 export default {
   name: 'AllPosts',
-  setup() {
-    const { result, loading, error } = useQuery(postsQuery);
-    return {
-      posts: result.value ? result.value.allPosts : null,
-      loading,
-      error
-    }
-  },
   components: {
     PostList,
   },
+  setup() {
+    const posts = ref(null);
+    const { result, loading, error } = useQuery(postsQuery);
 
-  data() {
+    // Watch for changes in the GraphQL response data
+    watch(
+      () => result.value,
+      (newPosts) => {
+        posts.value = newPosts ? newPosts.allPosts : null;
+      },
+      { immediate: true } // Trigger the watcher immediately
+    );
+
     return {
-      allPosts: null,
-    }
+      posts,
+      loading,
+      error,
+    };
   },
-}
+};
 </script>
