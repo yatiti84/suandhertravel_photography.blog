@@ -7,7 +7,7 @@
         <li @click="closeMenu"><router-link to="/blog">Blog</router-link></li>
         <li @click="closeMenu"><router-link to="/about">About</router-link></li>
         <li class="submenu" @click="toggleCategoryMenu" @mouseover="openCategoryMenu" @mouseout="closeCategoryMenu">
-          <span>Categories</span>
+          <span color="">Categories</span>
           <ul v-show="isCategoryMenuOpen" @mouseover="openCategoryMenu" @mouseout="closeCategoryMenu">
             <li v-for="cate in categories" :key="cate.name">
               <router-link @click="closeMenu" :to="`/category/${cate.name}`">{{ cate.name }}</router-link>
@@ -85,7 +85,7 @@ export default {
 
 <style scoped>
 nav {
-  background-color: red;
+  background-color: #D6B183;  
   /* Set the background color of the entire navbar to red */
 }
 
@@ -103,7 +103,11 @@ button {
   font-size: 1.2rem;
   cursor: pointer;
 }
-
+span {
+  color:#634D32;
+    text-decoration: none;
+    font-weight: bold;
+}
 ul {
   list-style: none;
   padding: 0;
@@ -123,7 +127,7 @@ li {
   top: 100%;
   left: 0;
   display: none;
-  background-color: red;
+  background-color: #D6B183;  
   /* Set the background color of the submenu to red */
   list-style: none;
   padding: 0;

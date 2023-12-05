@@ -1,7 +1,8 @@
 <template>
-    <router-link
-        :to="`/author/${author.user.username}`"
-    >{{ displayName }}</router-link>
+    <!-- <router-link
+        :to="`/author/${author.user.username}`" > -->
+    <span>{{ displayName }}</span>
+  <!-- </router-link> -->
   </template>
   
   <script>

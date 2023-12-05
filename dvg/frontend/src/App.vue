@@ -17,13 +17,18 @@
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-family: 'Noto Serif', 'Noto Sans', 'Source Han Sans', 'Microsoft YaHei', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
-
+a {
+    color:#634D32;
+    text-decoration: none;
+    font-weight: bold;
+}
 .route .nav-link {
   margin-right: 50px; 
   }

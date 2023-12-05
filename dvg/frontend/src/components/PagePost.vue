@@ -6,15 +6,21 @@
     By
     <AuthorLink :author="post.author" />
     <div>{{ displayableDate(post.publishDate) }}</div>
+    <ul>
+      分類：
+      <li class="post__categories" v-for="category in post.categories" :key="category.name">
+        <router-link :to="`/category/${category.name}`">{{ category.name }}</router-link>
+      </li>
+    </ul>
     <p class="post__description">{{ post.metaDescription }}</p>
-    <article>
-      {{ post.body }}
-    </article>
+    <article v-html="post.body" class="left-align"></article>
+    
     <ul>
       <li class="post__tags" v-for="tag in post.tags" :key="tag.name">
         <router-link :to="`/tag/${tag.name}`">#{{ tag.name }}</router-link>
       </li>
     </ul>
+    
   </div>
 </template>
   
@@ -59,10 +65,12 @@ export default {
     const routeName = route.params.slug
     const post = ref(null);
     const { result, loading, error } = useQuery(postQuery, { slug: routeName });
+    
     watch(
       () => result.value,
       (newPost) => {
         post.value = newPost ? newPost.postBySlug : null;
+        console.log(result.value?.postBySlug?.body)
       },
       { immediate: true } // Trigger the watcher immediately
     );
@@ -82,3 +90,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+article {
+  margin: 100px;
+}
+.left-align {
+  text-align: left;
+}
+</style>
