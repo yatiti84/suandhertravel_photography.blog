@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
-from ckedtor.fields import RichTextField
-# Create your models here.
+from ckeditor.fields import RichTextField
+
 
 class Profile(models.Model):
 
@@ -15,7 +15,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.get_username()
-    
+
+
 class Tag(models.Model):
 
     name = models.CharField(max_length=50, unique=True)
@@ -23,13 +24,31 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     descriptioni = models.TextField()
+
     def __str__(self):
         return self.name
+
+
+class Photo(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='photos/')
+    file_url = models.URLField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Generate the file URL based on the uploaded image path
+        if self.image:
+            self.file_url = self.image.url
+        super(Photo, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Photo {self.id}"
 
 class Post(models.Model):
     class Meta:
@@ -48,4 +67,3 @@ class Post(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.PROTECT)
     tags = models.ManyToManyField(Tag, blank=True)
     categories = models.ManyToManyField(Category, blank=True)
-    

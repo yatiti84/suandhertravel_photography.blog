@@ -29,6 +29,9 @@ class CategoryType(DjangoObjectType):
     class Meta:
         model = models.Category
 
+class PhotoType(DjangoObjectType):
+    class Meta:
+        model = models.Photo
 
 class Query(graphene.ObjectType):
     all_posts = graphene.List(PostType)
