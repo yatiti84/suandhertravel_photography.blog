@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from ckedtor.fields import RichTextField
 # Create your models here.
 
 class Profile(models.Model):
@@ -37,7 +38,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255, unique=True)
     subtitle = models.CharField(max_length=255, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
-    body = models.TextField()
+    body = RichTextField()
     meta_description = models.CharField(max_length=150, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

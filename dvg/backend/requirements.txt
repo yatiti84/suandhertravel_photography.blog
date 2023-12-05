@@ -5,3 +5,4 @@ sqlparse==0.4.4
 typing-extensions==4.7.1
 graphene-django==2.14.0
 django-cors-headers==3.6.0
+django-ckeditor==6.3.2

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "blog",
     "graphene_django",
     "corsheaders",
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
